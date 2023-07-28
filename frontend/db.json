@@ -1,0 +1,19 @@
+{
+  "persons": [
+    {
+      "name": "Ada Lovelace",
+      "number": "39-44-5323523",
+      "id": "d02a218f-b38e-4e69-ab26-d82e702e0c8f"
+    },
+    {
+      "name": "Dan Abramov",
+      "number": "12-43-234345",
+      "id": "bd9958ed-ad1f-4664-af63-60b65e52a4da"
+    },
+    {
+      "name": "Mary Poppendieck",
+      "number": "39-23-6423122",
+      "id": "92323398-7206-4ff4-a435-94a65ec4a86b"
+    }
+  ]
+}
