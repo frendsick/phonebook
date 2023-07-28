@@ -29,15 +29,15 @@ let persons = [
 ];
 
 // === VIEWS ===
-app.get("/info", (_, res) => {
+app.get("/info", (_, response) => {
     const personCount = persons.length;
     const timeNow = new Date();
-    res.render("info", { personCount, timeNow });
+    response.render("info", { personCount, timeNow });
 });
 
 // === API ===
-app.get("/api/persons", (_, res) => {
-    res.json(persons);
+app.get("/api/persons", (_, response) => {
+    response.json(persons);
 });
 
 app.get("/api/persons/:id", (request, response) => {
