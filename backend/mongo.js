@@ -4,6 +4,15 @@ require("dotenv").config();
 const username = process.env.MONGO_USERNAME;
 const password = process.env.MONGO_PASSWORD;
 const mongoClusterUrl = process.env.MONGO_URL;
+if (!username || !password || !mongoClusterUrl) {
+    console.error("Cannot connect to MongoDB - missing environment variables");
+    console.info("Please set the following environment variables:");
+    console.info("MONGO_USERNAME");
+    console.info("MONGO_PASSWORD");
+    console.info("MONGO_URL");
+    process.exit(1);
+}
+
 const table = "phonebook";
 const url = `mongodb+srv://${username}:${password}@${mongoClusterUrl}/${table}?retryWrites=true&w=majority`;
 
