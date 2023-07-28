@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
 
+// Use ejs for rendering templated HTML files
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
+
 let persons = [
     {
         id: 1,
@@ -26,6 +30,12 @@ let persons = [
 
 app.get("/api/persons", (_, res) => {
     res.json(persons);
+});
+
+app.get("/info", (_, res) => {
+    const personCount = persons.length;
+    const timeNow = new Date();
+    res.render("info", { personCount, timeNow });
 });
 
 const PORT = 3001;
