@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+app.use(express.json());
 
 // Use ejs for rendering templated HTML files
 app.set("view engine", "ejs");
@@ -46,6 +47,37 @@ app.get("/api/persons/:id", (request, response) => {
 
     if (person) response.json(person);
     else response.status(404).end();
+});
+
+const generateId = () => {
+    const maxId = persons.length > 0 ? Math.max(...persons.map((n) => n.id)) : 0;
+    return maxId + 1;
+};
+
+app.post("/api/persons", (request, response) => {
+    const { name, number } = request.body;
+
+    // Error handling
+    if (!name || !number) {
+        return response.status(400).json({
+            error: "name or number is missing",
+        });
+    }
+    const personExists = persons.some((person) => person.name === name);
+    if (personExists) {
+        return response.status(403).json({
+            error: `Phonebook already contains ${name}`,
+        });
+    }
+
+    // Append the person and return its information
+    const person = {
+        name,
+        number,
+        id: generateId(),
+    };
+    persons = persons.concat(person);
+    response.json(person);
 });
 
 app.delete("/api/persons/:id", (request, response) => {
