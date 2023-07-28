@@ -62,8 +62,9 @@ app.get("/api/persons", async (_, response) => {
     response.json(persons);
 });
 
-app.get("/api/persons/:id", (request, response) => {
-    const id = Number(request.params.id);
+app.get("/api/persons/:id", async (request, response) => {
+    const id = request.params.id;
+    const persons = await fetchPersons();
     const person = persons.find((person) => person.id === id);
 
     if (person) response.json(person);
