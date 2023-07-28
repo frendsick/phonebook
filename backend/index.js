@@ -1,4 +1,10 @@
-const { connectDatabase, deletePersonWithId, fetchPersons, savePerson } = require("./mongo");
+const {
+    connectDatabase,
+    deletePersonWithId,
+    fetchPersons,
+    savePerson,
+    updatePerson,
+} = require("./mongo");
 
 const express = require("express");
 const app = express();
@@ -36,9 +42,9 @@ app.get("/api/persons", async (_, response) => {
 });
 
 app.get("/api/persons/:id", async (request, response) => {
-    const _id = request.params.id;
+    const id = request.params.id;
     const persons = await fetchPersons();
-    const person = persons.find((person) => person._id === _id);
+    const person = persons.find((person) => person._id === id);
 
     if (person) response.json(person);
     else response.status(404).end();
@@ -68,6 +74,21 @@ app.post("/api/persons", async (request, response) => {
     };
     await savePerson(person);
     response.json(person);
+});
+
+app.put("/api/persons/:id", async (request, response) => {
+    const id = request.params.id;
+    const { name, number } = request.body;
+    console.log(name, number, id);
+    const person = {
+        name,
+        number,
+    };
+    await updatePerson(id, person).catch((error) => {
+        console.error(`Could not update person ${name}`, error);
+        response.status(404).end();
+    });
+    response.json(person); // Person was updated
 });
 
 app.delete("/api/persons/:id", async (request, response) => {
