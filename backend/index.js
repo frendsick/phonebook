@@ -53,6 +53,7 @@ app.post("/api/persons", async (request, response) => {
             error: "name or number is missing",
         });
     }
+    const persons = await fetchPersons();
     const personExists = persons.some((person) => person.name === name);
     if (personExists) {
         return response.status(403).json({
