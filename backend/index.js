@@ -1,3 +1,5 @@
+const { connectDatabase, Person } = require("./mongo");
+
 const express = require("express");
 const app = express();
 app.use(express.json());
@@ -51,7 +53,9 @@ app.get("/info", (_, response) => {
 
 // === API ===
 app.get("/api/persons", (_, response) => {
-    response.json(persons);
+    Person.find({}).then((persons) => {
+        response.json(persons);
+    });
 });
 
 app.get("/api/persons/:id", (request, response) => {
@@ -103,7 +107,9 @@ app.delete("/api/persons/:id", (request, response) => {
     response.status(204).end();
 });
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+connectDatabase().then(() => {
+    const PORT = process.env.PORT || 3001;
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
 });
