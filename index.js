@@ -2,6 +2,10 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
+// Allow requests from other origins
+const cors = require("cors");
+app.use(cors());
+
 // Configure request logging with `morgan` middleware
 const morgan = require("morgan");
 morgan.token("body", function (req, _) {
