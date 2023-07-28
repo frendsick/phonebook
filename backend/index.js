@@ -45,7 +45,8 @@ let persons = [
 ];
 
 // === VIEWS ===
-app.get("/info", (_, response) => {
+app.get("/info", async (_, response) => {
+    const persons = await fetchPersons();
     const personCount = persons.length;
     const timeNow = new Date();
     response.render("info", { personCount, timeNow });
