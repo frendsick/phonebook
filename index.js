@@ -1,8 +1,13 @@
 const express = require("express");
-const morgan = require("morgan");
 const app = express();
 app.use(express.json());
-app.use(morgan("tiny"));
+
+// Configure request logging with `morgan` middleware
+const morgan = require("morgan");
+morgan.token("body", function (req, _) {
+    return JSON.stringify(req.body);
+});
+app.use(morgan(":method :url :status :res[content-length] - :response-time ms :body"));
 
 // Use ejs for rendering templated HTML files
 app.set("view engine", "ejs");
