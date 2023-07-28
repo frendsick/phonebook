@@ -30,7 +30,7 @@ const Phonebook = () => {
     // string | null
     function getPersonIdByName(name) {
         const person = persons.find((person) => person.name.toLowerCase() === name.toLowerCase());
-        return person ? person.id : null;
+        return person ? person._id : null;
     }
 
     // Phonebook should not contain two person with the same name (case insensitive)
@@ -88,11 +88,11 @@ const Phonebook = () => {
     }
 
     async function deletePerson(person) {
-        const { name, id } = person;
+        const { name, _id } = person;
         // Delete the person only if the user confirms it
         if (!window.confirm(`Delete ${name}?`)) return;
         await personApi
-            .remove(id)
+            .remove(_id)
             .then(showNotification(`Deleted ${name}`))
             .catch(() =>
                 showNotification(

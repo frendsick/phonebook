@@ -63,9 +63,9 @@ app.get("/api/persons", async (_, response) => {
 });
 
 app.get("/api/persons/:id", async (request, response) => {
-    const id = request.params.id;
+    const _id = request.params.id;
     const persons = await fetchPersons();
-    const person = persons.find((person) => person.id === id);
+    const person = persons.find((person) => person._id === _id);
 
     if (person) response.json(person);
     else response.status(404).end();
@@ -96,14 +96,13 @@ app.post("/api/persons", async (request, response) => {
     response.json(person);
 });
 
-app.delete("/api/persons/:id", (request, response) => {
-    const id = Number(request.params.id);
-    const person = persons.find((person) => person.id === id);
-    if (!person) response.status(404).end(); // Person not found
-
-    // Delete the person
-    persons = persons.filter((person) => person.id !== id);
-    response.status(204).end();
+app.delete("/api/persons/:id", async (request, response) => {
+    const _id = request.params.id;
+    await Person.deleteOne({ _id }).catch((error) => {
+        console.error(`Could not delete person : ${error}`);
+        response.status(404).end();
+    });
+    response.status(204).end(); // Person was deleted
 });
 
 connectDatabase().then(() => {
