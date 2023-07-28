@@ -71,12 +71,7 @@ app.get("/api/persons/:id", async (request, response) => {
     else response.status(404).end();
 });
 
-const generateId = () => {
-    const maxId = persons.length > 0 ? Math.max(...persons.map((n) => n.id)) : 0;
-    return maxId + 1;
-};
-
-app.post("/api/persons", (request, response) => {
+app.post("/api/persons", async (request, response) => {
     const { name, number } = request.body;
 
     // Error handling
@@ -92,13 +87,12 @@ app.post("/api/persons", (request, response) => {
         });
     }
 
-    // Append the person and return its information
+    // Save new person to the database and return the added person's information
     const person = {
         name,
         number,
-        id: generateId(),
     };
-    persons = persons.concat(person);
+    await new Person(person).save();
     response.json(person);
 });
 
