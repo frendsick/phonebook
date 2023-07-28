@@ -21,7 +21,10 @@ const personSchema = new mongoose.Schema({
     number: String,
 });
 
-exports.Person = mongoose.model("Person", personSchema);
+const Person = mongoose.model("Person", personSchema);
+
+exports.fetchPersons = () => Person.find({});
+exports.savePerson = (person) => new Person(person).save();
 exports.connectDatabase = async () => {
     try {
         await mongoose.connect(url);
@@ -30,4 +33,9 @@ exports.connectDatabase = async () => {
         console.error("Error connecting to MongoDB:", error.message);
         process.exit(1);
     }
+};
+exports.deletePersonWithId = (id) => {
+    return Person.deleteOne({ _id: id }).catch((error) => {
+        console.error(`Could not delete person : ${error}`);
+    });
 };

@@ -1,4 +1,4 @@
-const { connectDatabase, Person } = require("./mongo");
+const { connectDatabase, deletePersonWithId, fetchPersons, savePerson } = require("./mongo");
 
 const express = require("express");
 const app = express();
@@ -30,10 +30,6 @@ app.get("/info", async (_, response) => {
 });
 
 // === API ===
-function fetchPersons() {
-    return Person.find({}).then((persons) => persons);
-}
-
 app.get("/api/persons", async (_, response) => {
     const persons = await fetchPersons();
     response.json(persons);
@@ -69,16 +65,13 @@ app.post("/api/persons", async (request, response) => {
         name,
         number,
     };
-    await new Person(person).save();
+    await savePerson(person);
     response.json(person);
 });
 
 app.delete("/api/persons/:id", async (request, response) => {
-    const _id = request.params.id;
-    await Person.deleteOne({ _id }).catch((error) => {
-        console.error(`Could not delete person : ${error}`);
-        response.status(404).end();
-    });
+    const id = request.params.id;
+    await deletePersonWithId(id).catch(() => response.status(404).end());
     response.status(204).end(); // Person was deleted
 });
 
