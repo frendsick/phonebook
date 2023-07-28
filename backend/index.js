@@ -2,6 +2,7 @@ const {
     connectDatabase,
     deletePersonWithId,
     fetchPersons,
+    fetchPersonById,
     savePerson,
     updatePerson,
 } = require("./mongo");
@@ -43,9 +44,7 @@ app.get("/api/persons", async (_, response) => {
 
 app.get("/api/persons/:id", async (request, response) => {
     const id = request.params.id;
-    const persons = await fetchPersons();
-    const person = persons.find((person) => person._id === id);
-
+    const person = await fetchPersonById(id);
     if (person) response.json(person);
     else response.status(404).end();
 });
@@ -79,7 +78,6 @@ app.post("/api/persons", async (request, response) => {
 app.put("/api/persons/:id", async (request, response) => {
     const id = request.params.id;
     const { name, number } = request.body;
-    console.log(name, number, id);
     const person = {
         name,
         number,

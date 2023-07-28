@@ -24,6 +24,7 @@ const personSchema = new mongoose.Schema({
 const Person = mongoose.model("Person", personSchema);
 
 exports.fetchPersons = () => Person.find({});
+exports.fetchPersonById = (id) => Person.findById(id);
 exports.savePerson = (person) => new Person(person).save();
 exports.updatePerson = (id, person) => Person.findByIdAndUpdate(id, person);
 exports.connectDatabase = async () => {
