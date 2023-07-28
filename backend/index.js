@@ -52,10 +52,13 @@ app.get("/info", (_, response) => {
 });
 
 // === API ===
-app.get("/api/persons", (_, response) => {
-    Person.find({}).then((persons) => {
-        response.json(persons);
-    });
+function fetchPersons() {
+    return Person.find({}).then((persons) => persons);
+}
+
+app.get("/api/persons", async (_, response) => {
+    const persons = await fetchPersons();
+    response.json(persons);
 });
 
 app.get("/api/persons/:id", (request, response) => {
