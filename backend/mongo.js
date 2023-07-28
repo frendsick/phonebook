@@ -37,7 +37,7 @@ exports.connectDatabase = async () => {
     }
 };
 exports.deletePersonWithId = (id) => {
-    return Person.deleteOne({ _id: id }).catch((error) => {
+    return Person.findByIdAndDelete(id).catch((error) => {
         console.error(`Could not delete person : ${error}`);
     });
 };
