@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 const PersonForm = ({ addPersonFunction }) => {
     // Input field states
@@ -21,7 +20,6 @@ const PersonForm = ({ addPersonFunction }) => {
         const person = {
             name: name.trim(),
             number: number.trim(),
-            id: uuidv4(),
         };
         const personAdded = addPersonFunction(person);
 
