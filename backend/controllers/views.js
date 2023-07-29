@@ -1,5 +1,5 @@
 const viewsRouter = require("express").Router();
-const mongo = require("../mongo");
+const mongo = require("../utils/mongo");
 
 // === VIEWS ===
 viewsRouter.get("/info", async (_, response) => {

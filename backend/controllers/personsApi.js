@@ -1,5 +1,5 @@
 const personsApiRouter = require("express").Router();
-const mongo = require("../mongo");
+const mongo = require("../utils/mongo");
 
 // === API ===
 personsApiRouter.get("/", async (_, response) => {

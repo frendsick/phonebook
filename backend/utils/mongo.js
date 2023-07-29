@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Person = require("./models/person");
+const Person = require("../models/person");
 require("dotenv").config();
 
 const username = process.env.MONGO_USERNAME;

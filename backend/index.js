@@ -1,5 +1,5 @@
 const app = require("./app");
-const mongo = require("./mongo");
+const mongo = require("./utils/mongo");
 
 mongo.connectDatabase().then(() => {
     const PORT = process.env.PORT || 3001;
