@@ -27,6 +27,7 @@ exports.fetchPersons = () => Person.find({});
 exports.fetchPersonById = (id) => Person.findById(id);
 exports.savePerson = (person) => new Person(person).save();
 exports.updatePerson = (id, person) => Person.findByIdAndUpdate(id, person);
+exports.deletePersonById = (id) => Person.findByIdAndDelete(id);
 exports.connectDatabase = async () => {
     try {
         await mongoose.connect(url);
@@ -35,9 +36,4 @@ exports.connectDatabase = async () => {
         console.error("Error connecting to MongoDB:", error.message);
         process.exit(1);
     }
-};
-exports.deletePersonWithId = (id) => {
-    return Person.findByIdAndDelete(id).catch((error) => {
-        console.error(`Could not delete person : ${error}`);
-    });
 };

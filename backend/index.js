@@ -1,6 +1,6 @@
 const {
     connectDatabase,
-    deletePersonWithId,
+    deletePersonById,
     fetchPersons,
     fetchPersonById,
     savePerson,
@@ -91,7 +91,7 @@ app.put("/api/persons/:id", async (request, response) => {
 
 app.delete("/api/persons/:id", async (request, response) => {
     const id = request.params.id;
-    await deletePersonWithId(id).catch(() => response.status(404).end());
+    await deletePersonById(id).catch(() => response.status(404).end());
     response.status(204).end(); // Person was deleted
 });
 
