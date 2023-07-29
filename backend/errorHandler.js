@@ -1,6 +1,5 @@
 const errorHandler = (err, _, res, next) => {
     console.error("Error:", err.message);
-    console.log(err.name);
     switch (err.name) {
         case "CastError":
             return res.status(404).send({ error: "Unknown person ID" });

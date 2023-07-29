@@ -42,9 +42,9 @@ app.get("/api/persons", async (_, response) => {
     response.json(persons);
 });
 
-app.get("/api/persons/:id", async (request, response) => {
+app.get("/api/persons/:id", async (request, response, next) => {
     const id = request.params.id;
-    const person = await fetchPersonById(id);
+    const person = await fetchPersonById(id).catch((error) => next(error));
     if (person) response.json(person);
     else response.status(404).end();
 });
