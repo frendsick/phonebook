@@ -63,17 +63,20 @@ const Phonebook = () => {
         if (!userId) return false;
 
         // Update phone number and redraw
-        await personApi
+        return personApi
             .update(userId, person)
-            .then(showNotification(`The number of ${name} was changed to ${number}`))
-            .catch((error) =>
+            .then(() => {
+                showNotification(`The number of ${name} was changed to ${number}`);
+                fetchPersons(); // Update person list
+                return true;
+            })
+            .catch((error) => {
                 showNotification(
                     `Could not update ${name} : ${error.response.data.error}`,
                     "error",
-                ),
-            );
-        fetchPersons(); // Update person list
-        return true;
+                );
+                return false;
+            });
     }
 
     // Return a boolean depending on if the person was added
