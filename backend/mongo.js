@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Person = require("./models/person");
 require("dotenv").config();
 
 const username = process.env.MONGO_USERNAME;
@@ -16,26 +17,6 @@ if (!username || !password || !mongoClusterUrl) {
 const table = "phonebook";
 const url = `mongodb+srv://${username}:${password}@${mongoClusterUrl}/${table}?retryWrites=true&w=majority`;
 
-const personSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        minLength: 3,
-        required: [true, "Name is required"],
-    },
-    number: {
-        type: String,
-        validate: {
-            validator: function (v) {
-                return /^\d{2,3}-\d+$/.test(v);
-            },
-            message: (props) => `${props.value} is not a valid phone number!`,
-        },
-        minLength: [9, "Not enough numbers"], // 8 numbers and the hyphen
-        required: [true, "Phone number is required"],
-    },
-});
-
-const Person = mongoose.model("Person", personSchema);
 const enableUpdateValidator = { runValidators: true };
 
 exports.fetchPersons = () => Person.find({});
