@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-if (process.argv.length != 2 && process.argv.length != 4) {
+if (process.argv.length !== 2 && process.argv.length !== 4) {
     console.log("Syntax: node mongo.js [<name> <number>]");
     process.exit(1);
 }
@@ -33,7 +33,7 @@ async function showPhonebook() {
 
 async function addPersonToDatabase(person) {
     await mongoose.connect(url);
-    await new Person(person).save().then((_) => {
+    await new Person(person).save().then(() => {
         console.log("person saved!");
         mongoose.connection.close();
     });
