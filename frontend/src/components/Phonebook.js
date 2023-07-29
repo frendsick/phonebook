@@ -78,13 +78,24 @@ const Phonebook = () => {
 
     // Return a boolean depending on if the person was added
     async function addPerson(person) {
+        // If name exists, update the existing person's phone number instead
         if (await nameExists(person.name)) {
             return updatePhoneNumber(person);
         }
-        personApi.create(person);
-        setPersons((prevPersons) => [...prevPersons, person]);
-        showNotification(`Added ${person.name}`);
-        return true;
+        return personApi
+            .create(person)
+            .then(() => {
+                setPersons((prevPersons) => [...prevPersons, person]);
+                showNotification(`Added ${person.name}`);
+                return true;
+            })
+            .catch((error) => {
+                showNotification(
+                    `Could not create ${person.name} : ${error.response.data.error}`,
+                    "error",
+                );
+                return false;
+            });
     }
 
     async function deletePerson(person) {

@@ -8,20 +8,13 @@ const PersonForm = ({ addPersonFunction }) => {
     // Form handlers
     const handleNameChange = (event) => setName(event.target.value);
     const handleNumberChange = (event) => setNumber(event.target.value);
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-
-        // Do not allow empty values
-        if (!name || !number) {
-            window.alert("Please fill name and number");
-            return;
-        }
-
         const person = {
             name: name.trim(),
             number: number.trim(),
         };
-        const personAdded = addPersonFunction(person);
+        const personAdded = await addPersonFunction(person);
 
         // Clear the input fields if person was added
         if (!personAdded) return;
