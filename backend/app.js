@@ -1,8 +1,8 @@
-const errorHandler = require("./errorHandler");
 const express = require("express");
 const app = express();
 const personsApiRouter = require("./controllers/personsApi");
 const viewsRouter = require("./controllers/views");
+const middleware = require("./utils/middleware");
 app.use(express.json());
 app.use(express.static("build"));
 require("dotenv").config();
@@ -27,6 +27,6 @@ app.use("/", viewsRouter);
 app.use("/api/persons", personsApiRouter);
 
 // Custom error handler middleware
-app.use(errorHandler);
+app.use(middleware.errorHandler);
 
 module.exports = app;
