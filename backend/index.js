@@ -51,15 +51,9 @@ app.get("/api/persons/:id", async (request, response, next) => {
 
 app.post("/api/persons", async (request, response, next) => {
     const { name, number } = request.body;
-
-    // Error handling
-    // Not too pretty but demonstrates how errorHandler middleware could be used
-    if (!name || !number) {
-        const error = Error("Name or number is missing");
-        error.name = "BadPerson";
-        next(error);
-    }
     const persons = await fetchPersons();
+
+    // Do not allow saving persons with the same name
     const personExists = persons.some((person) => person.name === name);
     if (personExists) {
         const error = Error(`Phonebook already contains ${name}`);
