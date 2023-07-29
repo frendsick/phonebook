@@ -78,8 +78,9 @@ app.put("/api/persons/:id", async (request, response, next) => {
         name,
         number,
     };
-    await updatePerson(id, person).catch((error) => next(error));
-    response.json(person); // Person was updated
+    await updatePerson(id, person)
+        .then(() => response.json(person))
+        .catch((error) => next(error));
 });
 
 app.delete("/api/persons/:id", async (request, response, next) => {

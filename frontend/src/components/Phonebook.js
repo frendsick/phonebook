@@ -66,9 +66,9 @@ const Phonebook = () => {
         await personApi
             .update(userId, person)
             .then(showNotification(`The number of ${name} was changed to ${number}`))
-            .catch(() =>
+            .catch((error) =>
                 showNotification(
-                    `Information of ${name} has already been removed from server`,
+                    `Could not update ${name} : ${error.response.data.error}`,
                     "error",
                 ),
             );
