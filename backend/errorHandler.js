@@ -1,3 +1,5 @@
+// This error handler middleware is not too useful
+// but it demonstrates how custom middlewares could be used
 const errorHandler = (err, _, res, next) => {
     console.error("Error:", err.message);
     switch (err.name) {

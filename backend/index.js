@@ -53,6 +53,7 @@ app.post("/api/persons", async (request, response, next) => {
     const { name, number } = request.body;
 
     // Error handling
+    // Not too pretty but demonstrates how errorHandler middleware could be used
     if (!name || !number) {
         const error = Error("Name or number is missing");
         error.name = "BadPerson";
@@ -92,6 +93,7 @@ app.delete("/api/persons/:id", async (request, response, next) => {
     response.status(204).end(); // Person was deleted
 });
 
+// Custom error handler middleware
 app.use(errorHandler);
 
 connectDatabase().then(() => {
