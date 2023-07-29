@@ -49,21 +49,21 @@ app.get("/api/persons/:id", async (request, response) => {
     else response.status(404).end();
 });
 
-app.post("/api/persons", async (request, response) => {
+app.post("/api/persons", async (request, response, next) => {
     const { name, number } = request.body;
 
     // Error handling
     if (!name || !number) {
-        return response.status(400).json({
-            error: "name or number is missing",
-        });
+        const error = Error("Name or number is missing");
+        error.name = "BadPerson";
+        next(error);
     }
     const persons = await fetchPersons();
     const personExists = persons.some((person) => person.name === name);
     if (personExists) {
-        return response.status(403).json({
-            error: `Phonebook already contains ${name}`,
-        });
+        const error = Error(`Phonebook already contains ${name}`);
+        error.name = "DuplicateError";
+        next(error);
     }
 
     // Save new person to the database and return the added person's information
