@@ -6,7 +6,7 @@ const {
     savePerson,
     updatePerson,
 } = require("./mongo");
-
+const errorHandler = require("./errorHandler");
 const express = require("express");
 const app = express();
 app.use(express.json());
@@ -75,25 +75,24 @@ app.post("/api/persons", async (request, response) => {
     response.json(person);
 });
 
-app.put("/api/persons/:id", async (request, response) => {
+app.put("/api/persons/:id", async (request, response, next) => {
     const id = request.params.id;
     const { name, number } = request.body;
     const person = {
         name,
         number,
     };
-    await updatePerson(id, person).catch((error) => {
-        console.error(`Could not update person ${name}`, error);
-        response.status(404).end();
-    });
+    await updatePerson(id, person).catch((error) => next(error));
     response.json(person); // Person was updated
 });
 
-app.delete("/api/persons/:id", async (request, response) => {
+app.delete("/api/persons/:id", async (request, response, next) => {
     const id = request.params.id;
-    await deletePersonById(id).catch(() => response.status(404).end());
+    await deletePersonById(id).catch((error) => next(error));
     response.status(204).end(); // Person was deleted
 });
+
+app.use(errorHandler);
 
 connectDatabase().then(() => {
     const PORT = process.env.PORT || 3001;
