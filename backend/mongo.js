@@ -17,8 +17,15 @@ const table = "phonebook";
 const url = `mongodb+srv://${username}:${password}@${mongoClusterUrl}/${table}?retryWrites=true&w=majority`;
 
 const personSchema = new mongoose.Schema({
-    name: String,
-    number: String,
+    name: {
+        type: String,
+        minLength: 3,
+        required: true,
+    },
+    number: {
+        type: String,
+        required: true,
+    },
 });
 
 const Person = mongoose.model("Person", personSchema);

@@ -72,8 +72,9 @@ app.post("/api/persons", async (request, response, next) => {
         name,
         number,
     };
-    await savePerson(person);
-    response.json(person);
+    await savePerson(person)
+        .then(() => response.json(person))
+        .catch((error) => next(error));
 });
 
 app.put("/api/persons/:id", async (request, response, next) => {

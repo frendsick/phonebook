@@ -5,6 +5,8 @@ const errorHandler = (err, _, res, next) => {
     switch (err.name) {
         case "CastError":
             return res.status(404).send({ error: "Unknown person ID" });
+        case "ValidationError":
+            return res.status(403).send({ error: err.message });
         case "BadPerson":
             return res.status(400).send({ error: "Badly formatted person object" });
         case "DuplicateError":
