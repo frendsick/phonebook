@@ -51,7 +51,7 @@ const Phonebook = () => {
     }
 
     // Return a boolean depending on if the phone number was changed
-    async function updatePhoneNumber(person) {
+    function updatePhoneNumber(person) {
         const { name, number } = person;
         const changePhoneNumber = !window.confirm(
             `${name} is already added to phonebook, replace the old number with a new one?`,
