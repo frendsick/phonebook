@@ -14,4 +14,6 @@ const errorHandler = (err, _, res, next) => {
     next(err);
 };
 
-module.exports = errorHandler;
+module.exports = {
+    errorHandler,
+};
